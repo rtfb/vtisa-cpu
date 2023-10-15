@@ -12,8 +12,23 @@ async def test_vtisa_cpu(dut):
     # reset
     dut._log.info("reset")
     dut.rst_n.value = 0
-    await ClockCycles(dut.clk, 1)
+    await ClockCycles(dut.clk, 5)
     dut.rst_n.value = 1
     await ClockCycles(dut.clk, 1)
 
+    assert int(dut.uo_out.value) == 0
+    await ClockCycles(dut.clk, 1)
     assert int(dut.uo_out.value) == 1
+    await ClockCycles(dut.clk, 1)
+    assert int(dut.uo_out.value) == 2
+    await ClockCycles(dut.clk, 1)
+    assert int(dut.uo_out.value) == 3
+
+    # reset
+    dut._log.info("reset")
+    dut.rst_n.value = 0
+    await ClockCycles(dut.clk, 5)
+    dut.rst_n.value = 1
+    await ClockCycles(dut.clk, 1)
+
+    assert int(dut.uo_out.value) == 0
