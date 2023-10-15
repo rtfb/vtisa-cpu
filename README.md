@@ -1,5 +1,25 @@
 ![](../../workflows/gds/badge.svg) ![](../../workflows/docs/badge.svg) ![](../../workflows/test/badge.svg)
 
+# Very Tiny ISA CPU
+
+A very minimalistic and naive CPU implementation with a custom ISA.
+
+## Prepare Dev Environment
+
+Install Verilog compilers:
+
+```
+sudo apt install iverilog verilator
+```
+
+Install testing prerequisites:
+```
+cd src
+virtualenv env
+source env/bin/activate
+pip3 install cocotb pytest
+```
+
 # What is Tiny Tapeout?
 
 TinyTapeout is an educational project that aims to make it easier and cheaper than ever to get your digital designs manufactured on a real chip.
