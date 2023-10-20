@@ -27,7 +27,7 @@ module tt_um_rtfb_vtisa_cpu (
         .clk(clk),
         .data_in(ui_in),
         .data_out(uo_out),
-        .ram_rom(uio_out[0]),
+        .rom_ram(uio_out[0]),
         .addr_data(uio_out[1])
     );
 

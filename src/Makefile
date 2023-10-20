@@ -11,7 +11,8 @@ ifneq ($(GATES),yes)
 # this is the only part you should need to modify:
 VERILOG_SOURCES += $(PWD)/tb.v \
                    $(PWD)/tt_um_rtfb_vtisa_cpu.v \
-                   $(PWD)/cpu.v
+                   $(PWD)/cpu.v \
+                   $(PWD)/fetcher.v
 
 else
 
