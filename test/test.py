@@ -29,11 +29,11 @@ async def test_project(dut):
 
     dut._log.info("Test project behavior")
 
+    # Wait one more cycle to get out of reset
+    await ClockCycles(dut.clk, 1)
+
     mem = must_rom(dut)
     await read(dut, mem, 0)
-
-    # mem = must_ram(dut)
-    # await read(dut, mem, 0)
 
     mem = must_ram(dut)
     await read(dut, mem, 5)
@@ -59,7 +59,7 @@ def must_rom(dut):
 
 def must_ram(dut):
     flags = int(dut.uio_out.value)
-    # assert flags == 1
+    assert flags == 1
     return RAM
 
 
@@ -68,6 +68,6 @@ async def read(dut, mem, want_addr):
     have in memory for that address.
     """
     addr = int(dut.uo_out.value)
-    # assert addr == want_addr
+    assert addr == want_addr
     dut.ui_in.value = mem[addr]
     await ClockCycles(dut.clk, 1)

@@ -28,23 +28,18 @@ module cpu(
 
     reg [STATE_BITS_IDX:0] state;
     wire [STATE_BITS_IDX:0] next_state;
-    reg [BITS_IDX:0] clock_counter;
-    // reg fetch_source;
-    wire fetch_source;
+    reg fetch_source;
 
     always @(posedge clk)
     begin
         if (reset) begin
             pc <= 0;
             state <= STATE_RESET;
-            // fetch_source <= FETCH_ROM;
-            clock_counter <= 1;
+            fetch_source <= FETCH_ROM;
         end else begin
             pc <= next_pc;
             state <= next_state;
-            clock_counter <= clock_counter + 1;
-            // if (state != STATE_RESET)
-                // fetch_source <= !fetch_source;
+            fetch_source <= !fetch_source;
         end
     end
 
@@ -79,7 +74,6 @@ module cpu(
     );
     */
 
-    assign fetch_source = (state == STATE_RESET) ? FETCH_ROM : clock_counter[0];
     assign rom_ram = fetch_source;
     assign addr_data = 0;
     assign data_out = address;
