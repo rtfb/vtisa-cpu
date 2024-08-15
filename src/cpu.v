@@ -11,20 +11,23 @@ parameter STATE_EXECUTE = 3;
 parameter FETCH_ROM = 0;
 parameter FETCH_RAM = 1;
 
+// when rom_ram is 0, address addresses ROM; otherwise it addresses RAM
+// data_in is the byte of data being read from MEM[address]
+// when reading from RAM, the instruction execution gets stalled for a cycle
+// until the next time we can read the next instruction from ROM again
 module cpu(
     input  wire       reset,
     input  wire       clk,
     input  wire [7:0] data_in,
-    output wire [7:0] data_out,
+    output wire [7:0] address,
     output wire       rom_ram,
-    output wire       addr_data
+    output wire       addr_data // ???
 );
     reg [BITS_IDX:0] pc;
     reg [BITS_IDX:0] acc;
     wire [BITS_IDX:0] next_pc;
     wire increment_pc;
     reg [BITS_IDX:0] instr;
-    wire [BITS_IDX:0] address;
 
     reg [STATE_BITS_IDX:0] state;
     wire [STATE_BITS_IDX:0] next_state;
@@ -76,6 +79,5 @@ module cpu(
 
     assign rom_ram = fetch_source;
     assign addr_data = 0;
-    assign data_out = address;
     assign next_pc = pc + increment_pc;
 endmodule
