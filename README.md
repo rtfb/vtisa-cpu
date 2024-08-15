@@ -1,5 +1,24 @@
 ![](../../workflows/gds/badge.svg) ![](../../workflows/docs/badge.svg) ![](../../workflows/test/badge.svg) ![](../../workflows/fpga/badge.svg)
 
+# Very Tiny ISA CPU
+
+A very minimalistic and naive CPU implementation with a custom ISA.
+
+## Prepare Dev Environment
+
+Install Verilog compilers:
+
+```
+sudo apt install iverilog verilator
+```
+
+Install testing prerequisites:
+```
+cd test
+virtualenv env
+source env/bin/activate
+pip3 install -r requirements.txt
+```
 # Tiny Tapeout Verilog Project Template
 
 - [Read the documentation for project](docs/info.md)

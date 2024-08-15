@@ -6,6 +6,10 @@ from cocotb.clock import Clock
 from cocotb.triggers import ClockCycles
 
 
+ROM = [0xd0, 0xd1, 0xd2, 0xd3]
+RAM = [0xb1, 0xb2, 0xb3, 0xb4, 0xb5, 17, 0xb6, 0xb7, 0xb8]
+
+
 @cocotb.test()
 async def test_project(dut):
     dut._log.info("Start")
@@ -25,16 +29,45 @@ async def test_project(dut):
 
     dut._log.info("Test project behavior")
 
-    # Set the input values you want to test
-    dut.ui_in.value = 20
-    dut.uio_in.value = 30
+    mem = must_rom(dut)
+    await read(dut, mem, 0)
 
-    # Wait for one clock cycle to see the output values
+    # mem = must_ram(dut)
+    # await read(dut, mem, 0)
+
+    mem = must_ram(dut)
+    await read(dut, mem, 5)
+
+    mem = must_rom(dut)
+    await read(dut, mem, 1)
+
+    mem = must_ram(dut)
+    await read(dut, mem, 5)
+
+    mem = must_rom(dut)
+    await read(dut, mem, 2)
+
+    mem = must_ram(dut)
+    await read(dut, mem, 5)
+
+
+def must_rom(dut):
+    flags = int(dut.uio_out.value)
+    assert flags == 0
+    return ROM
+
+
+def must_ram(dut):
+    flags = int(dut.uio_out.value)
+    # assert flags == 1
+    return RAM
+
+
+async def read(dut, mem, want_addr):
+    """CPU has exposed address in uo_out. Read it, and set ui_in to whatever we
+    have in memory for that address.
+    """
+    addr = int(dut.uo_out.value)
+    # assert addr == want_addr
+    dut.ui_in.value = mem[addr]
     await ClockCycles(dut.clk, 1)
-
-    # The following assersion is just an example of how to check the output values.
-    # Change it to match the actual expected output of your module:
-    assert dut.uo_out.value == 50
-
-    # Keep testing the module by changing the input values, waiting for
-    # one or more clock cycles, and asserting the expected output values.
