@@ -9,12 +9,12 @@ You can also include images in this folder and reference them in the markdown. E
 
 ## How it works
 
-Explain how your project works
+TODO: it's a CPU.
 
 ## How to test
 
-Explain how to use your project
+TODO: I don't know if it works yet.
 
 ## External hardware
 
-List external hardware used in your project (e.g. PMOD, LED display, etc), if any
+TODO: an external controller capable to behave like RAM and ROM at once.
