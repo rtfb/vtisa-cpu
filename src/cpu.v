@@ -1,7 +1,7 @@
 parameter BITS = 8;
-parameter BITS_IDX = BITS - 1;
+parameter BITS_IDX = 7;
 parameter STATE_BITS = 2;
-parameter STATE_BITS_IDX = STATE_BITS - 1;
+parameter STATE_BITS_IDX = 1;
 
 parameter STATE_RESET = 0;
 parameter STATE_FETCH = 1;
