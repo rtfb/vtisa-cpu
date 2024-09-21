@@ -30,6 +30,12 @@ module cpu(
     wire [STATE_BITS_IDX:0] next_state;
     reg fetch_source;
 
+    wire is_alu_op;
+    wire is_mem_op;
+    wire mem_rw;
+    wire [2:0] imm;
+    wire [2:0] register;
+
     always @(posedge clk)
     begin
         if (reset) begin
@@ -51,20 +57,25 @@ module cpu(
         .pc(pc),
         .state(state),
         .instr(instr),
-        .increment_pc(increment_pc),
         .address(address),
         .acc(acc),
         .next_state(next_state)
     );
 
-    /*
     decoder decoder(
         .reset(reset),
         .clk(clk),
-        .opcode(opcode),
-        .increment_pc(increment_pc)
+        .instr(instr),
+        .fetch_source(fetch_source),
+        .increment_pc(increment_pc),
+        .is_alu_op(is_alu_op),
+        .is_mem_op(is_mem_op),
+        .mem_rw(mem_rw),
+        .imm(imm),
+        .register(register)
     );
 
+    /*
     executor executor(
         .reset(reset),
         .clk(clk),

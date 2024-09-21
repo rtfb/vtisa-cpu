@@ -6,7 +6,6 @@ module fetcher (
     input  wire [BITS_IDX:0]       pc,
     input  wire [STATE_BITS_IDX:0] state,
     output reg  [BITS_IDX:0]       instr,
-    output wire                    increment_pc,
     output wire [7:0]              address,
     output reg  [BITS_IDX:0]       acc,
     output wire [STATE_BITS_IDX:0] next_state
@@ -31,5 +30,4 @@ module fetcher (
 
     assign address = (fetch_source == FETCH_ROM) ? pc : 5; // TODO: unhardcode the ram address
     assign next_state = STATE_FETCH; // TODO: keep fetching for now, later we'll switch to decoding
-    assign increment_pc = fetch_source;
 endmodule

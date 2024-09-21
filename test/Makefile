@@ -7,6 +7,7 @@ TOPLEVEL_LANG ?= verilog
 SRC_DIR = $(PWD)/../src
 PROJECT_SOURCES = \
 	cpu.v \
+	decoder.v \
 	fetcher.v \
 	project.v
 
