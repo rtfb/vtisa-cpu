@@ -12,7 +12,8 @@ module decoder (
     output wire                    is_mem_op,
     output wire                    mem_rw,
     output wire[2:0]               imm,
-    output wire[2:0]               register
+    output wire[2:0]               register,
+    output wire[4:0]               opcode
 );
     always @(posedge clk)
     begin
@@ -21,7 +22,8 @@ module decoder (
         end
     end
 
-    assign is_mem_op = instr[7:3] == OP_LD || instr[7:3] == OP_ST;
+    assign opcode = instr[7:3];
+    assign is_mem_op = opcode == OP_LD || opcode == OP_ST;
     assign mem_rw = instr[3];
     assign increment_pc = fetch_source;
     assign imm = instr[2:0];

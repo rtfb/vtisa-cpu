@@ -75,15 +75,13 @@ module cpu(
         .register(register)
     );
 
-    /*
     executor executor(
         .reset(reset),
         .clk(clk),
-        .opcode(opcode),
-        .arg(arg),
-        .acc(acc)
+        .acc(acc),
+        .is_alu_op(is_alu_op),
+        .is_mem_op(is_mem_op)
     );
-    */
 
     assign rom_ram = fetch_source;
     assign addr_data = 0;

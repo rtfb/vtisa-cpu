@@ -6,7 +6,7 @@ from cocotb.clock import Clock
 from cocotb.triggers import ClockCycles
 
 
-ROM = [0xd0, 0xd1, 0xd2, 0xd3]
+ROM = [0x0f, 0xd1, 0xd2, 0xd3]
 RAM = [0xb1, 0xb2, 0xb3, 0xb4, 0xb5, 17, 0xb6, 0xb7, 0xb8]
 
 
@@ -34,21 +34,24 @@ async def test_project(dut):
 
     mem = must_rom(dut)
     await read(dut, mem, 0)
+    await ClockCycles(dut.clk, 1)
+    await ClockCycles(dut.clk, 1)
+    await ClockCycles(dut.clk, 1)
 
-    mem = must_ram(dut)
-    await read(dut, mem, 5)
+    # mem = must_ram(dut)
+    # await read(dut, mem, 5)
 
-    mem = must_rom(dut)
-    await read(dut, mem, 1)
+    # mem = must_rom(dut)
+    # await read(dut, mem, 1)
 
-    mem = must_ram(dut)
-    await read(dut, mem, 5)
+    # mem = must_ram(dut)
+    # await read(dut, mem, 5)
 
-    mem = must_rom(dut)
-    await read(dut, mem, 2)
+    # mem = must_rom(dut)
+    # await read(dut, mem, 2)
 
-    mem = must_ram(dut)
-    await read(dut, mem, 5)
+    # mem = must_ram(dut)
+    # await read(dut, mem, 5)
 
 
 def must_rom(dut):

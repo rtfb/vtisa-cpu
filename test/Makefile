@@ -8,6 +8,7 @@ SRC_DIR = $(PWD)/../src
 PROJECT_SOURCES = \
 	cpu.v \
 	decoder.v \
+	executor.v \
 	fetcher.v \
 	project.v
 

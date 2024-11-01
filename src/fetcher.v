@@ -28,6 +28,7 @@ module fetcher (
         end
     end
 
-    assign address = (fetch_source == FETCH_ROM) ? pc : 5; // TODO: unhardcode the ram address
+    // assign address = (fetch_source == FETCH_ROM) ? pc : 5; // TODO: unhardcode the ram address
+    assign address = pc;
     assign next_state = STATE_FETCH; // TODO: keep fetching for now, later we'll switch to decoding
 endmodule
