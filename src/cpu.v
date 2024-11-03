@@ -21,6 +21,7 @@ module cpu(
 );
     reg [BITS_IDX:0] pc;
     reg [BITS_IDX:0] acc;
+    reg [BITS_IDX:0] new_acc;
     wire [BITS_IDX:0] next_pc;
     wire increment_pc;
     reg [BITS_IDX:0] instr;
@@ -35,6 +36,7 @@ module cpu(
     wire mem_rw;
     wire [2:0] imm;
     wire [2:0] register;
+    wire [4:0] opcode;
 
     always @(posedge clk)
     begin
@@ -45,7 +47,6 @@ module cpu(
         end else begin
             pc <= next_pc;
             state <= next_state;
-            fetch_source <= !fetch_source;
         end
     end
 
@@ -72,7 +73,8 @@ module cpu(
         .is_mem_op(is_mem_op),
         .mem_rw(mem_rw),
         .imm(imm),
-        .register(register)
+        .register(register),
+        .opcode(opcode)
     );
 
     executor executor(
@@ -80,7 +82,12 @@ module cpu(
         .clk(clk),
         .acc(acc),
         .is_alu_op(is_alu_op),
-        .is_mem_op(is_mem_op)
+        .is_mem_op(is_mem_op),
+        .mem_rw(mem_rw),
+        .imm(imm),
+        .register(register),
+        .opcode(opcode),
+        .new_acc(new_acc)
     );
 
     assign rom_ram = fetch_source;

@@ -25,7 +25,7 @@ module decoder (
     assign opcode = instr[7:3];
     assign is_mem_op = opcode == OP_LD || opcode == OP_ST;
     assign mem_rw = instr[3];
-    assign increment_pc = fetch_source;
+    assign increment_pc = !fetch_source;
     assign imm = instr[2:0];
     assign register = instr[2:0];
 endmodule
