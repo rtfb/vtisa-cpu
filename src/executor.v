@@ -1,6 +1,7 @@
 module executor (
     input  wire                    reset,
     input  wire                    clk,
+    input  wire [BITS_IDX:0]       pc,
     input  wire [7:0]              acc,
     input  wire                    is_alu_op,
     input  wire                    is_mem_op,
@@ -8,17 +9,16 @@ module executor (
     input  wire[2:0]               imm,
     input  wire[2:0]               register,
     input  wire[4:0]               opcode,
-    output reg [7:0]               new_acc
+    output wire [7:0]              address,
+    output wire [7:0]              new_acc
 );
     always @(posedge clk)
     begin
         if (reset) begin
         end else begin
-            case (opcode)
-                OP_LI: begin
-                    new_acc <= 5'b00000 | imm;
-                end
-            endcase
         end
     end
+
+    assign new_acc = opcode == OP_LI ? 5'b00000 | imm : acc + imm;
+    assign address = is_mem_op ? acc : pc;
 endmodule

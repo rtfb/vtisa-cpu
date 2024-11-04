@@ -21,7 +21,7 @@ module cpu(
 );
     reg [BITS_IDX:0] pc;
     reg [BITS_IDX:0] acc;
-    reg [BITS_IDX:0] new_acc;
+    wire [BITS_IDX:0] new_acc;
     wire [BITS_IDX:0] next_pc;
     wire increment_pc;
     reg [BITS_IDX:0] instr;
@@ -29,10 +29,10 @@ module cpu(
 
     reg [STATE_BITS_IDX:0] state;
     wire [STATE_BITS_IDX:0] next_state;
-    reg fetch_source;
 
     wire is_alu_op;
     wire is_mem_op;
+    reg was_mem_op;
     wire mem_rw;
     wire [2:0] imm;
     wire [2:0] register;
@@ -43,10 +43,11 @@ module cpu(
         if (reset) begin
             pc <= 0;
             state <= STATE_RESET;
-            fetch_source <= FETCH_ROM;
+            was_mem_op <= 0;
         end else begin
             pc <= next_pc;
             state <= next_state;
+            was_mem_op <= is_mem_op;
         end
     end
 
@@ -54,12 +55,10 @@ module cpu(
         .reset(reset),
         .clk(clk),
         .data_in(data_in),
-        .fetch_source(fetch_source),
-        .pc(pc),
+        .is_mem_op(is_mem_op),
+        .was_mem_op(was_mem_op),
         .state(state),
         .instr(instr),
-        .address(address),
-        .acc(acc),
         .next_state(next_state)
     );
 
@@ -67,7 +66,6 @@ module cpu(
         .reset(reset),
         .clk(clk),
         .instr(instr),
-        .fetch_source(fetch_source),
         .increment_pc(increment_pc),
         .is_alu_op(is_alu_op),
         .is_mem_op(is_mem_op),
@@ -80,6 +78,7 @@ module cpu(
     executor executor(
         .reset(reset),
         .clk(clk),
+        .pc(pc),
         .acc(acc),
         .is_alu_op(is_alu_op),
         .is_mem_op(is_mem_op),
@@ -87,10 +86,20 @@ module cpu(
         .imm(imm),
         .register(register),
         .opcode(opcode),
+        .address(address),
         .new_acc(new_acc)
     );
 
-    assign rom_ram = fetch_source;
+    acc_updater acc_updater(
+        .reset(reset),
+        .clk(clk),
+        .from_ram(was_mem_op),
+        .data_in(data_in),
+        .new_acc(new_acc),
+        .acc(acc)
+    );
+
+    assign rom_ram = is_mem_op;
     assign addr_data = 0;
     assign data_out = address;
     assign next_pc = pc + increment_pc;
