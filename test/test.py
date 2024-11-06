@@ -15,6 +15,7 @@ ROM = [
     0x89,  # INC 1 - acc+=1
     0x89,  # INC 1 - acc+=1
     0x89,  # INC 1 - acc+=1
+    0x53,  # SETACC r3 - set acc to contents of r3
     0,
     0,
     0,
@@ -47,7 +48,7 @@ async def test_project(dut):
     # Wait one more cycle to get out of reset
     await ClockCycles(dut.clk, 1)
 
-    for i in range(7):
+    for i in range(len(ROM)):
         mem = get_mem(dut)
         print(i, hex(mem[i]))
         await read(dut, mem, i)

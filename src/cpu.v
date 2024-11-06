@@ -21,11 +21,13 @@ module cpu(
 );
     reg [BITS_IDX:0] pc;
     reg [BITS_IDX:0] acc;
-    wire [BITS_IDX:0] new_acc;
     wire [BITS_IDX:0] next_pc;
     wire increment_pc;
     reg [BITS_IDX:0] instr;
     wire [BITS_IDX:0] address;
+
+    wire [BITS_IDX:0] new_acc;
+    wire [BITS_IDX:0] from_regfile;
 
     reg [STATE_BITS_IDX:0] state;
     wire [STATE_BITS_IDX:0] next_state;
@@ -93,9 +95,11 @@ module cpu(
     acc_updater acc_updater(
         .reset(reset),
         .clk(clk),
+        .opcode(opcode),
         .from_ram(was_mem_op),
         .data_in(data_in),
         .new_acc(new_acc),
+        .from_regfile(from_regfile),
         .acc(acc)
     );
 
@@ -104,9 +108,9 @@ module cpu(
         .clk(clk),
         .wreg_index(register),
         .data_in(data_in),
-        .write_enable(1),  // TODO: unhardcode
+        .write_enable(was_mem_op),  // TODO: generalize
         .rreg_index(register),
-        .data_out()  // XXX: fix this
+        .data_out(from_regfile)
     );
 
     assign rom_ram = is_mem_op;

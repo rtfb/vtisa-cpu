@@ -9,7 +9,7 @@ module register_file #(
     input  wire [REG_WIDTH-1:0]    data_in,
     input  wire                    write_enable,
     input  wire [ADDR_WIDTH-1:0]   rreg_index,
-    output reg  [REG_WIDTH-1:0]    data_out
+    output wire [REG_WIDTH-1:0]    data_out
 );
 generate
     reg [REG_WIDTH-1:0] regs [0:N_REGS-1];
@@ -25,9 +25,9 @@ generate
             if (write_enable) begin
                 regs[wreg_index] <= data_in;
             end else begin
-                data_out <= regs[rreg_index];
             end
         end
     end
+    assign data_out = regs[rreg_index];
 endgenerate
 endmodule

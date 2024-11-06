@@ -32,9 +32,11 @@ endmodule
 module acc_updater (
     input  wire                    reset,
     input  wire                    clk,
+    input  wire [4:0]              opcode,
     input  wire                    from_ram,
     input  wire [7:0]              data_in,
     input  wire [7:0]              new_acc,
+    input  wire [7:0]              from_regfile,
     output reg  [BITS_IDX:0]       acc
 );
     always @(posedge clk)
@@ -45,7 +47,11 @@ module acc_updater (
             if (from_ram) begin
                 acc <= data_in;
             end else begin
-                acc <= new_acc;
+                if (opcode == OP_SETACC) begin
+                    acc <= from_regfile;
+                end else begin
+                    acc <= new_acc;
+                end
             end
         end
     end
