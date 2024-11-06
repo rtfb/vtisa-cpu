@@ -10,7 +10,8 @@ PROJECT_SOURCES = \
 	decoder.v \
 	executor.v \
 	fetcher.v \
-	project.v
+	project.v \
+	regfile.v
 
 ifneq ($(GATES),yes)
 

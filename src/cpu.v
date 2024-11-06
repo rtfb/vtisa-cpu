@@ -99,6 +99,16 @@ module cpu(
         .acc(acc)
     );
 
+    register_file register_file(
+        .reset(reset),
+        .clk(clk),
+        .wreg_index(register),
+        .data_in(data_in),
+        .write_enable(1),  // TODO: unhardcode
+        .rreg_index(register),
+        .data_out()  // XXX: fix this
+    );
+
     assign rom_ram = is_mem_op;
     assign addr_data = 0;
     assign data_out = address;

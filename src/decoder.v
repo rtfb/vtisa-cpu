@@ -12,13 +12,15 @@ module decoder (
     output wire                    is_mem_op,
     output wire                    mem_rw,
     output wire[2:0]               imm,
-    output wire[2:0]               register,
+    output reg[2:0]                register,
     output wire[4:0]               opcode
 );
     always @(posedge clk)
     begin
         if (reset) begin
+            register <= 0;
         end else begin
+            register <= instr[2:0];
         end
     end
 
@@ -27,5 +29,4 @@ module decoder (
     assign mem_rw = instr[3];
     assign increment_pc = !is_mem_op;
     assign imm = (opcode == OP_LI || opcode == OP_INC) ? instr[2:0] : 0;
-    assign register = instr[2:0];
 endmodule
