@@ -2,6 +2,7 @@ parameter OP_LI  = 5'b00001;
 parameter OP_LD  = 5'b00010;
 parameter OP_ST  = 5'b00011;
 parameter OP_INC = 5'b10001;
+parameter OP_GETACC = 5'b01001;
 parameter OP_SETACC = 5'b01010;
 
 module decoder (

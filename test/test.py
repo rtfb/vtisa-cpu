@@ -16,6 +16,8 @@ ROM = [
     0x89,  # INC 1 - acc+=1
     0x89,  # INC 1 - acc+=1
     0x53,  # SETACC r3 - set acc to contents of r3
+    0x0d,  # LI 5
+    0x40,  # GETACC r0 - set r0 to contents of acc
     0,
     0,
     0,

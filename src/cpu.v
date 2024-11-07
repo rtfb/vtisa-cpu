@@ -107,7 +107,7 @@ module cpu(
         .reset(reset),
         .clk(clk),
         .wreg_index(register),
-        .data_in(data_in),
+        .data_in(opcode == OP_GETACC ? acc : data_in),
         .write_enable(was_mem_op),  // TODO: generalize
         .rreg_index(register),
         .data_out(from_regfile)
